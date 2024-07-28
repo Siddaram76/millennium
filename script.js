@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const apiKey = 'YOUR_GOOGLE_SHEETS_API_KEY';
-    const sheetId = 'YOUR_GOOGLE_SHEET_ID';
+    const sheetId = '1QT6ipufgUfd-nLr5tm5yro7FEhuiHg-jf_0alnJKI8c';
+        const apiKey = 'AIzaSyC-wylWnO4XxBbciUF1FwySQaZNM66j6sg';
     const sheetName = 'Sheet1';
 
     const form = document.getElementById('search-form');
