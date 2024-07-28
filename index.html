@@ -3,44 +3,166 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>College Website</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Student Results</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f7f9fc;
+            color: #333;
+        }
+        h1 {
+            color: #4a90e2;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        select, input, button {
+            padding: 10px;
+            margin-bottom: 10px;
+            width: calc(100% - 22px);
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            color: #fff;
+            background-color: #4a90e2;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #357abd;
+        }
+        .result-card {
+            margin-top: 20px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #fff;
+        }
+        .result-card h2 {
+            margin-top: 0;
+            color: #4a90e2;
+        }
+        .result-card table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .result-card th, .result-card td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        .result-card th {
+            background-color: #f2f2f2;
+        }
+        .counter {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <h1>College Name</h1>
-        <nav>
-            <ul class="menu">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About Us</a></li>
-                <li><a href="#departments">Departments</a></li>
-                <li><a href="#admissions">Admissions</a></li>
-                <li><a href="#contact">Contact Us</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main>
-        <section id="home">
-            <h2>Welcome to Our College</h2>
-            <p>Introduction content goes here.</p>
-        </section>
-        <section id="about">
-            <h2>About Us</h2>
-            <p>Information about the college goes here.</p>
-        </section>
-        <section id="departments">
-            <h2>Departments</h2>
-            <p>Details about various departments go here.</p>
-        </section>
-        <section id="admissions">
-            <h2>Admissions</h2>
-            <p>Information about admissions goes here.</p>
-        </section>
-        <section id="contact">
-            <h2>Contact Us</h2>
-            <p>Contact information goes here.</p>
-        </section>
-    </main>
-    <script src="scripts.js"></script>
+    <div class="container">
+        <h1>Student Results</h1>
+        <select id="courseSelect">
+            <option value="">Select Course</option>
+            <option value="Course1">Course 1</option>
+            <option value="Course2">Course 2</option>
+            <option value="Course3">Course 3</option>
+            <!-- Add more options as needed -->
+        </select>
+        <input type="text" id="rollNumberInput" placeholder="Enter roll number">
+        <button onclick="searchResult()">Search</button>
+        <div id="results"></div>
+        <div class="counter">
+            <!-- FreeCounter code will go here -->
+            <script type="text/javascript" src="https://www.freecounterstat.com/fc.php?id=YOUR_COUNTER_ID"></script>
+        </div>
+    </div>
+
+    <script>
+         const sheetId = '1QT6ipufgUfd-nLr5tm5yro7FEhuiHg-jf_0alnJKI8c';
+        const apiKey = 'AIzaSyC-wylWnO4XxBbciUF1FwySQaZNM66j6sg';
+        let resultsData = [];
+
+        async function fetchResults(sheetName) {
+            const range = encodeURIComponent(sheetName + '!A1:H'); // Adjust range if necessary
+            const baseUrl = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${range}?key=${apiKey}`;
+            try {
+                const response = await fetch(baseUrl);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                console.log('Fetched data:', data); // Debugging log
+                resultsData = data.values;
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                document.getElementById('results').innerText = 'Error fetching data';
+            }
+        }
+
+        function displayResults(results) {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = ''; // Clear previous results
+
+            if (!results || results.length === 0) {
+                resultsDiv.innerText = 'No data available';
+                return;
+            }
+
+            const headers = results[0]; // The first row should contain headers
+            console.log('Headers:', headers); // Debugging log
+
+            results.slice(1).forEach(row => {
+                const resultCard = document.createElement('div');
+                resultCard.className = 'result-card';
+
+                let tableHtml = `
+                    <h2>${row[0]}</h2>
+                    <p><strong>Roll Number:</strong> ${row[1]}</p>
+                    <table>
+                        <tr><th>${headers[2]}</th><td>${row[2]}</td></tr>
+                        <tr><th>${headers[3]}</th><td>${row[3]}</td></tr>
+                        <tr><th>${headers[4]}</th><td>${row[4]}</td></tr>
+                        <tr><th>${headers[5]}</th><td>${row[5]}</td></tr>
+                        <tr><th>${headers[6]}</th><td>${row[6]}</td></tr>
+                        <tr><th>${headers[7]}</th><td>${row[7]}</td></tr>
+                        <tr><th>Total</th><td>${row[8]}</td></tr>
+                    </table>
+                `;
+
+                resultCard.innerHTML = tableHtml;
+                resultsDiv.appendChild(resultCard);
+            });
+        }
+
+        function searchResult() {
+            const course = document.getElementById('courseSelect').value;
+            const rollNumber = document.getElementById('rollNumberInput').value;
+
+            if (course === '') {
+                alert('Please select a course');
+                return;
+            }
+
+            fetchResults(course).then(() => {
+                console.log('Results Data:', resultsData); // Debugging log
+                const filteredResults = resultsData.filter(row => row[1] === rollNumber);
+                console.log('Filtered Results:', filteredResults); // Debugging log
+                displayResults(filteredResults);
+            });
+        }
+    </script>
 </body>
 </html>
