@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const sheetId = '1QT6ipufgUfd-nLr5tm5yro7FEhuiHg-jf_0alnJKI8c';
+  const sheetId = '1QT6ipufgUfd-nLr5tm5yro7FEhuiHg-jf_0alnJKI8c';
         const apiKey = 'AIzaSyC-wylWnO4XxBbciUF1FwySQaZNM66j6sg';
-    const sheetName = 'Sheet1';
+    const sheetName = 'Sheet1'; // Ensure this matches your sheet name
 
     const form = document.getElementById('search-form');
     const resultList = document.getElementById('result-list');
@@ -18,23 +18,26 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(data => {
                 const rows = data.values;
                 const headers = rows[0];
-                const results = rows.slice(1).find(row => row[1] === rollNumber);
+                const resultRow = rows.slice(1).find(row => row[headers.indexOf('Roll Number')] === rollNumber);
                 resultList.innerHTML = '';
-                if (!results) {
+                if (!resultRow) {
                     resultList.innerHTML = '<p>No results found for the provided roll number.</p>';
                 } else {
                     const resultItem = document.createElement('div');
                     resultItem.className = 'result-item';
+                    
+                    let subjectsHtml = '';
+                    headers.forEach((header, index) => {
+                        if (header !== 'Name' && header !== 'Roll Number') {
+                            subjectsHtml += `<div class="subject">${header}: ${resultRow[index]}</div>`;
+                        }
+                    });
+                    
                     resultItem.innerHTML = `
-                        <h2>${results[0]}</h2>
-                        <p>Roll Number: ${results[1]}</p>
+                        <h2>${resultRow[headers.indexOf('Name')]}</h2>
+                        <p>Roll Number: ${resultRow[headers.indexOf('Roll Number')]}</p>
                         <div class="subjects">
-                            <div class="subject">Math: ${results[2]}</div>
-                            <div class="subject">Science: ${results[3]}</div>
-                            <div class="subject">English: ${results[4]}</div>
-                            <div class="subject">History: ${results[5]}</div>
-                            <div class="subject">Geography: ${results[6]}</div>
-                            <div class="subject">Computer Science: ${results[7]}</div>
+                            ${subjectsHtml}
                         </div>
                     `;
                     resultList.appendChild(resultItem);
@@ -42,6 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .catch(error => {
                 console.error('Error fetching data:', error);
+                resultList.innerHTML = '<p>Error fetching data. Please try again later.</p>';
             });
     }
 });
