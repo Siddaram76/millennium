@@ -108,7 +108,7 @@
                 }
                 const data = await response.json();
                 resultsData = data.values;
-                columnHeaders = resultsData[0]; // First row is headers
+                columnHeaders = resultsData[0].map(header => header.trim()); // Trim whitespace from headers
             } catch (error) {
                 console.error('Error fetching data:', error);
                 document.getElementById('results').innerText = 'Error fetching data';
@@ -130,7 +130,9 @@
 
                 let tableRows = '';
                 for (let i = 2; i < columnHeaders.length; i++) {
-                    tableRows += `<tr><td>${columnHeaders[i]}</td><td>${row[i]}</td></tr>`;
+                    if (columnHeaders[i] !== 'Total') {
+                        tableRows += `<tr><td>${columnHeaders[i]}</td><td>${row[i]}</td></tr>`;
+                    }
                 }
 
                 resultCard.innerHTML = `
