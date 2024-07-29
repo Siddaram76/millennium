@@ -47,23 +47,29 @@
             padding: 20px;
             border: 1px solid #ddd;
             border-radius: 8px;
-            background-color: #fff;
+            background: linear-gradient(135deg, #ffcc33 0%, #ff66cc 100%);
+            color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s;
+        }
+        .result-card:hover {
+            transform: scale(1.05);
         }
         .result-card h2 {
             margin-top: 0;
-            color: #4a90e2;
+            color: #fff;
         }
         .result-card table {
             width: 100%;
             border-collapse: collapse;
         }
         .result-card th, .result-card td {
-            border: 1px solid #ddd;
+            border: 1px solid rgba(255, 255, 255, 0.3);
             padding: 10px;
             text-align: left;
         }
         .result-card th {
-            background-color: #f2f2f2;
+            background-color: rgba(255, 255, 255, 0.2);
         }
         .counter {
             text-align: center;
