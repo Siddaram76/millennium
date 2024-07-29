@@ -73,9 +73,9 @@
 </head>
 <body>
     <div class="container">
-<h1>MILLENNIUM COMPOSITE PU COLLEGE , KALABURGI</h1>
-   <marquee><h2> QUARTERLY EXAM / MONTHLY TEST 2 RESULT TO BE ANNOUNCED.........!!!!</h2></marquee>
-    <HR>
+        <h1>MILLENNIUM COMPOSITE PU COLLEGE, KALABURGI</h1>
+        <marquee><h2>QUARTERLY EXAM / MONTHLY TEST 2 RESULT TO BE ANNOUNCED.........!!!!</h2></marquee>
+        <hr>
         <h1>Student Results</h1>
         <select id="courseSelect">
             <option value="">Select Course</option>
@@ -83,7 +83,6 @@
             <option value="Course2">SCIENCE 2</option>
             <option value="Course3">COMMERCE 1</option>
             <option value="Course4">COMMERCE 2</option>
-            <!-- Add more options as needed -->
         </select>
         <input type="text" id="rollNumberInput" placeholder="Enter roll number">
         <button onclick="searchResult()">Search</button>
@@ -95,9 +94,10 @@
     </div>
 
     <script>
-         const sheetId = '1QT6ipufgUfd-nLr5tm5yro7FEhuiHg-jf_0alnJKI8c';
+        const sheetId = '1QT6ipufgUfd-nLr5tm5yro7FEhuiHg-jf_0alnJKI8c';
         const apiKey = 'AIzaSyC-wylWnO4XxBbciUF1FwySQaZNM66j6sg';
         let resultsData = [];
+        let columnHeaders = [];
 
         async function fetchResults(sheetName) {
             const baseUrl = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${sheetName}?key=${apiKey}`;
@@ -108,6 +108,7 @@
                 }
                 const data = await response.json();
                 resultsData = data.values;
+                columnHeaders = resultsData[0]; // First row is headers
             } catch (error) {
                 console.error('Error fetching data:', error);
                 document.getElementById('results').innerText = 'Error fetching data';
@@ -127,18 +128,18 @@
                 const resultCard = document.createElement('div');
                 resultCard.className = 'result-card';
 
+                let tableRows = '';
+                for (let i = 2; i < columnHeaders.length; i++) {
+                    tableRows += `<tr><td>${columnHeaders[i]}</td><td>${row[i]}</td></tr>`;
+                }
+
                 resultCard.innerHTML = `
-                    <h2>Name: ${row[0]}</h2>
-                    <p><strong>Roll Number:</strong> ${row[1]}</p>
+                    <h2>Name: ${row[columnHeaders.indexOf('Name')]}</h2>
+                    <p><strong>Roll Number:</strong> ${row[columnHeaders.indexOf('Roll Number')]}</p>
                     <table>
                         <tr><th>Subject</th><th>Marks</th></tr>
-                        <tr><td>LANG 1</td><td>${row[2]}</td></tr>
-                        <tr><td>LANG 2</td><td>${row[3]}</td></tr>
-                        <tr><td>PHY/ECO </td><td>${row[4]}</td></tr>
-                        <tr><td>CHE/BS </td><td>${row[5]}</td></tr>
-                        <tr><td>MATHS/ACC </td><td>${row[6]}</td></tr>
-                        <tr><td>BIO/CS </td><td>${row[7]}</td></tr>
-                        <tr><th>Total</th><td>${row[8]}</td></tr>
+                        ${tableRows}
+                        <tr><th>Total</th><td>${row[columnHeaders.indexOf('Total')]}</td></tr>
                     </table>
                 `;
 
@@ -156,7 +157,7 @@
             }
 
             fetchResults(course).then(() => {
-                const filteredResults = resultsData.filter(row => row[1] === rollNumber);
+                const filteredResults = resultsData.filter(row => row[columnHeaders.indexOf('Roll Number')] === rollNumber);
                 displayResults(filteredResults);
             });
         }
