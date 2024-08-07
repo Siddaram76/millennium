@@ -47,41 +47,23 @@
             padding: 20px;
             border: 1px solid #ddd;
             border-radius: 8px;
-            background: linear-gradient(135deg, #ffcc33 0%, #ff66cc 100%);
-            color: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s, background 0.3s;
-        }
-        .result-card:hover {
-            transform: scale(1.05);
-            background: linear-gradient(135deg, #ff66cc 0%, #ffcc33 100%);
+            background-color: #fff;
         }
         .result-card h2 {
             margin-top: 0;
-            color: #fff;
+            color: #4a90e2;
         }
         .result-card table {
             width: 100%;
             border-collapse: collapse;
         }
         .result-card th, .result-card td {
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            border: 1px solid #ddd;
             padding: 10px;
             text-align: left;
         }
         .result-card th {
-            background-color: rgba(255, 255, 255, 0.2);
-        }
-        .congrats-message {
-            margin-top: 20px;
-            padding: 20px;
-            border-radius: 8px;
-            background: #4a90e2;
-            color: #fff;
-            text-align: center;
-            font-size: 18px;
-            font-weight: bold;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            background-color: #f2f2f2;
         }
         .counter {
             text-align: center;
@@ -146,9 +128,12 @@
                 const resultCard = document.createElement('div');
                 resultCard.className = 'result-card';
 
+                const total = row[columnHeaders.indexOf('Total')]; // Fetch the total
+                const percentage = row[columnHeaders.indexOf('Percentage')]; // Fetch the percentage
+
                 let tableRows = '';
                 for (let i = 2; i < columnHeaders.length; i++) {
-                    if (columnHeaders[i] !== 'Total') {
+                    if (columnHeaders[i] !== 'Total' && columnHeaders[i] !== 'Percentage') {
                         tableRows += `<tr><td>${columnHeaders[i]}</td><td>${row[i]}</td></tr>`;
                     }
                 }
@@ -159,18 +144,13 @@
                     <table>
                         <tr><th>Subject</th><th>Marks</th></tr>
                         ${tableRows}
-                        <tr><th>Total</th><td>${row[columnHeaders.indexOf('Total')]}</td></tr>
+                        <tr><th>Total</th><td>${total}</td></tr>
+                        <tr><th>Percentage</th><td>${percentage}%</td></tr>
                     </table>
                 `;
 
                 resultsDiv.appendChild(resultCard);
             });
-
-            // Add congratulations message at the end
-            const congratsMessage = document.createElement('div');
-            congratsMessage.className = 'congrats-message';
-            congratsMessage.innerText = 'Congratulations ......!!!';
-            resultsDiv.appendChild(congratsMessage);
         }
 
         function searchResult() {
