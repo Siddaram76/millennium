@@ -9,49 +9,57 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 20px;
-            background-color: #66F33E;
+            background-color: #f4f4f4;
             color: #333;
         }
         h1 {
             color: #4a90e2;
             text-align: center;
+            margin-bottom: 20px;
         }
         .container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
-            background-color: #fff;
+            background-color: #ffffff;
             padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
         }
         select, input, button {
             padding: 10px;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             width: calc(100% - 22px);
             font-size: 16px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
             box-sizing: border-box;
         }
         button {
             color: #fff;
             background-color: #4a90e2;
             border: none;
+            border-radius: 5px;
             cursor: pointer;
+            transition: background-color 0.3s ease;
         }
         button:hover {
             background-color: #357abd;
         }
         .result-card {
-            margin-top: 20px;
+            margin-top: 30px;
             padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            background-color: #fff;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
         .result-card h2 {
             margin-top: 0;
-            color: #4a90e2;
+            color: #333;
+            font-size: 24px;
+            font-weight: 600;
+            border-bottom: 2px solid #4a90e2;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
         }
         .result-card table {
             width: 100%;
@@ -59,11 +67,29 @@
         }
         .result-card th, .result-card td {
             border: 1px solid #ddd;
-            padding: 10px;
+            padding: 12px;
             text-align: left;
+            font-size: 16px;
         }
         .result-card th {
+            background-color: #4a90e2;
+            color: #fff;
+            font-weight: bold;
+        }
+        .result-card td {
             background-color: #f2f2f2;
+        }
+        .result-summary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            background-color: #4a90e2;
+            color: #fff;
+            font-weight: bold;
+            font-size: 18px;
         }
         .counter {
             text-align: center;
@@ -144,9 +170,11 @@
                     <table>
                         <tr><th>Subject</th><th>Marks</th></tr>
                         ${tableRows}
-                        <tr><th>Total</th><td>${total}</td></tr>
-                        <tr><th>Percentage</th><td>${percentage}%</td></tr>
                     </table>
+                    <div class="result-summary">
+                        <div>Total: ${total}</div>
+                        <div>Percentage: ${percentage}%</div>
+                    </div>
                 `;
 
                 resultsDiv.appendChild(resultCard);
