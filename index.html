@@ -1,176 +1,437 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Student Results</title>
+<title>Student Results - MET 2026</title>
 
 <style>
-body{
-    font-family: Arial, sans-serif;
-    background: powderblue;
-    padding:20px;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
-.container{
-    max-width:900px;
-    margin:auto;
-    background:#fff;
-    padding:20px;
-    border-radius:10px;
-    box-shadow:0 0 10px rgba(0,0,0,0.1);
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+    padding: 20px;
+    position: relative;
+    overflow-x: hidden;
 }
-h1,h3{text-align:center;color:#4a90e2}
-.logo{
-    display:block;
-    margin:auto;
-    max-width:150px;
+
+/* Background with custom image */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('background.jpg'); /* Replace with your image path */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    z-index: -2;
 }
-input,button{
-    width:100%;
-    padding:15px;
-    font-size:18px;
-    margin-top:15px;
-    border-radius:8px;
+
+/* Dark overlay for better text readability */
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.85) 0%, rgba(118, 75, 162, 0.85) 100%);
+    z-index: -1;
 }
-button{
-    background:#4a90e2;
-    color:white;
-    border:none;
-    cursor:pointer;
+
+.container {
+    max-width: 950px;
+    margin: auto;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    animation: slideIn 0.6s ease-out;
 }
-button:hover{background:#357abd}
-.result-card{
-    margin-top:25px;
-    padding:20px;
-    background:#f9f9f9;
-    border-radius:10px;
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
-table{
-    width:100%;
-    border-collapse:collapse;
+
+.header-section {
+    text-align: center;
+    margin-bottom: 30px;
 }
-th,td{
-    border:1px solid #ccc;
-    padding:10px;
+
+.logo {
+    display: block;
+    margin: 0 auto 20px;
+    max-width: 180px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
 }
-th{
-    background:#4a90e2;
-    color:white;
+
+.logo:hover {
+    transform: scale(1.05);
 }
-.result-summary{
-    margin-top:15px;
-    background:#4a90e2;
-    color:white;
-    padding:10px;
-    display:flex;
-    justify-content:space-between;
-    font-weight:bold;
+
+h3 {
+    color: #667eea;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 10px;
 }
-footer{text-align:center;margin-top:30px}
+
+h1 {
+    color: #4a5568;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.marquee-container {
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    margin: 20px 0;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.marquee-container h2 {
+    margin: 0;
+    font-size: 24px;
+    letter-spacing: 8px;
+    animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+    from {
+        text-shadow: 0 0 5px #fff, 0 0 10px #fff;
+    }
+    to {
+        text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #667eea;
+    }
+}
+
+hr {
+    border: none;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #667eea, transparent);
+    margin: 25px 0;
+}
+
+.search-section h1 {
+    color: #667eea;
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 26px;
+}
+
+.input-group {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+input {
+    flex: 1;
+    padding: 18px 20px;
+    font-size: 18px;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    background: white;
+}
+
+input:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+button {
+    padding: 18px 40px;
+    font-size: 18px;
+    font-weight: 600;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+.result-card {
+    margin-top: 30px;
+    padding: 30px;
+    background: linear-gradient(135deg, #f6f8fb 0%, #ffffff 100%);
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.result-card h3 {
+    color: #667eea;
+    font-size: 22px;
+    margin-bottom: 20px;
+    text-align: center;
+    padding: 15px;
+    background: linear-gradient(135deg, #667eea15, #764ba215);
+    border-radius: 10px;
+}
+
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 20px;
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+th, td {
+    padding: 18px;
+    text-align: left;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+th {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 14px;
+    letter-spacing: 1px;
+}
+
+td {
+    background: white;
+    font-size: 16px;
+    color: #4a5568;
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+tr:hover td {
+    background: #f7fafc;
+}
+
+.download-link {
+    text-align: center;
+    margin: 30px 0;
+}
+
+.download-link a {
+    display: inline-block;
+    padding: 15px 30px;
+    background: linear-gradient(135deg, #48bb78, #38a169);
+    color: white;
+    text-decoration: none;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(72, 187, 120, 0.3);
+}
+
+.download-link a:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(72, 187, 120, 0.5);
+}
+
+footer {
+    text-align: center;
+    margin-top: 40px;
+    padding: 25px;
+    background: linear-gradient(135deg, #f6f8fb, #ffffff);
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+footer strong {
+    color: #4a5568;
+    line-height: 1.8;
+}
+
+.no-result {
+    text-align: center;
+    padding: 40px;
+    color: #e53e3e;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+    }
+    
+    .input-group {
+        flex-direction: column;
+    }
+    
+    h1 {
+        font-size: 22px;
+    }
+    
+    .marquee-container h2 {
+        font-size: 18px;
+        letter-spacing: 4px;
+    }
+}
 </style>
 </head>
 
 <body>
 <div class="container">
-
-<img src="https://github.com/Siddaram76/millennium/blob/main/logo.jpg?raw=true" class="logo">
-<h3>Kalyana Karnataka Education Society’s®</h3>
-<h1>MILLENNIUM COMPOSITE PU COLLEGE, KALABURGI</h1>
-<marquee><h2>M E T – 2026</h2></marquee>
-<hr>
-
-<h1>Student Results</h1>
-
-<input type="text"
-       id="rollInput"
-       placeholder="Enter Roll Number"
-       oninput="this.value=this.value.replace(/[^0-9]/g,'')"
-       onkeypress="if(event.key==='Enter') searchResult()">
-
-<button onclick="searchResult()">Search</button>
-
-<div id="results"></div>
-
+    <div class="header-section">
+        <img src="https://github.com/Siddaram76/millennium/blob/main/logo.jpg?raw=true" class="logo" alt="College Logo">
+        <h3>Kalyana Karnataka Education Society's®</h3>
+        <h1>MILLENNIUM COMPOSITE PU COLLEGE, KALABURGI</h1>
+    </div>
+    
+    <div class="marquee-container">
+        <marquee><h2>M E T – 2026</h2></marquee>
+    </div>
+    
+    <hr>
+    
+    <div class="search-section">
+        <h1>🎓 Student Results</h1>
+        
+        <div class="input-group">
+            <input type="text"
+                   id="rollInput"
+                   placeholder="Enter Roll Number"
+                   oninput="this.value=this.value.replace(/[^0-9]/g,'')"
+                   onkeypress="if(event.key==='Enter') searchResult()">
+            <button onclick="searchResult()">🔍 Search</button>
+        </div>
+        
+        <div id="results"></div>
+    </div>
+    
+    <div class="download-link">
+        <a href="#"><b>📥 Click here to Download Answer Key</b></a>
+    </div>
+    
+    <footer>
+        <hr>
+        <strong>
+            Developed & Maintained by Siddaram Diggikar<br>
+            Dept. of Computer Science
+        </strong>
+    </footer>
 </div>
 
 <script>
 const sheetId = '1M4dPi1mx84vOsOF-0-7_jaBfhJ98zosyCFTHaRuq9kA';
-const apiKey = 'AIzaSyC-wylWnO4XxBbciUF1FwySQaZNM66j6sg';
-const sheetName = 'MET2026';   // 🔴 your sheet tab
+const apiKey  = 'AIzaSyC-wylWnO4XxBbciUF1FwySQaZNM66j6sg';
 
+let sheetName = "";
 let data = [];
-let headers = [];
+let rollCol = -1;
+
+async function getSheetName(){
+    const metaUrl = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}?key=${apiKey}`;
+    const res = await fetch(metaUrl);
+    const json = await res.json();
+    sheetName = json.sheets[0].properties.title;
+}
 
 async function fetchData(){
-    const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${sheetName}?key=${apiKey}`;
-    const res = await fetch(url);
+    if(!sheetName){
+        await getSheetName();
+    }
+    const dataUrl = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${sheetName}?key=${apiKey}`;
+    const res = await fetch(dataUrl);
     const json = await res.json();
-    data = json.values;
-    headers = data[0].map(h => h.trim());
+    data = json.values || [];
+    detectRollColumn();
+}
+
+function detectRollColumn(){
+    const headers = data[0].map(h => h.toLowerCase().trim());
+    rollCol = headers.findIndex(h => h.includes("roll"));
+
+    if(rollCol === -1){
+        alert("⚠️ Roll No column not found");
+    }
 }
 
 function searchResult(){
     const roll = document.getElementById("rollInput").value.trim();
-    const out = document.getElementById("results");
+    const out  = document.getElementById("results");
 
     if(!roll){
-        alert("Enter Roll Number");
+        alert("⚠️ Please enter a Roll Number");
         return;
     }
 
     fetchData().then(()=>{
         out.innerHTML = "";
 
-        const rollIndex = headers.indexOf("Roll Number");
-        const nameIndex = headers.indexOf("Name");
-        const totalIndex = headers.indexOf("Total");
-        const percentIndex = headers.indexOf("Percentage");
-
-        const student = data.slice(1).find(row => row[rollIndex] === roll);
+        const student = data.slice(1).find(row =>
+            row[rollCol] && row[rollCol].toString().trim() === roll
+        );
 
         if(!student){
-            out.innerHTML = "<b>No result found</b>";
+            out.innerHTML = '<div class="no-result">❌ No result found for this roll number</div>';
             return;
         }
 
-        let subjectRows = "";
-        headers.forEach((head, i)=>{
-            if(
-                head !== "Name" &&
-                head !== "Roll Number" &&
-                head !== "Total" &&
-                head !== "Percentage"
-            ){
-                subjectRows += `<tr><td>${head}</td><td>${student[i] || "-"}</td></tr>`;
-            }
-        });
-
         out.innerHTML = `
         <div class="result-card">
-            <h3>Name: ${student[nameIndex]}</h3>
-            <p><b>Roll Number:</b> ${student[rollIndex]}</p>
+            <h3>📋 Roll Number: ${student[rollCol]}</h3>
 
             <table>
-                <tr><th>Subject</th><th>Marks</th></tr>
-                ${subjectRows}
+                <tr><th>Category</th><th>Count</th></tr>
+                <tr><td>✅ Correct Answers</td><td><strong>${student[rollCol+1] || 0}</strong></td></tr>
+                <tr><td>❌ Incorrect Answers</td><td><strong>${student[rollCol+2] || 0}</strong></td></tr>
+                <tr><td>⏭️ Not Attempted</td><td><strong>${student[rollCol+3] || 0}</strong></td></tr>
             </table>
-
-            <div class="result-summary">
-                <div>Total: ${student[totalIndex] || "-"}</div>
-                <div>Percentage: ${student[percentIndex] || "-"}%</div>
-            </div>
         </div>`;
     });
 }
 </script>
-
-<footer>
-<hr>
-<strong>
-Developed & Maintained by Siddaram Diggikar<br>
-Dept. of Computer Science
-</strong>
-</footer>
 
 </body>
 </html>
