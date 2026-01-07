@@ -1,212 +1,176 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Results</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: powderblue;
-            color: #333;
-        }
-        h1,h3 {
-            color: #4a90e2;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .logo {
-            display: block;
-            margin: 0 auto 20px auto;
-            max-width: 150px;
-        }
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-        }
-        select, input, button {
-            padding: 10px;
-            margin-bottom: 15px;
-            width: calc(100% - 22px);
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-        button {
-            color: #fff;
-            background-color: #4a90e2;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        button:hover {
-            background-color: #357abd;
-        }
-        .result-card {
-            margin-top: 30px;
-            padding: 20px;
-            border-radius: 10px;
-            background-color: #f9f9f9;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        .result-card h2 {
-            margin-top: 0;
-            color: #333;
-            font-size: 24px;
-            font-weight: 600;
-            border-bottom: 2px solid #4a90e2;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-        }
-        .result-card table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        .result-card th, .result-card td {
-            border: 1px solid #ddd;
-            padding: 12px;
-            text-align: left;
-            font-size: 16px;
-        }
-        .result-card th {
-            background-color: #4a90e2;
-            color: #fff;
-            font-weight: bold;
-        }
-        .result-card td {
-            background-color: #f2f2f2;
-        }
-        .result-summary {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 5px;
-            background-color: #4a90e2;
-            color: #fff;
-            font-weight: bold;
-            font-size: 18px;
-        }
-        .counter {
-            text-align: center;
-            margin-top: 20px;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Results</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    background: powderblue;
+    padding:20px;
+}
+.container{
+    max-width:900px;
+    margin:auto;
+    background:#fff;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+h1,h3{text-align:center;color:#4a90e2}
+.logo{
+    display:block;
+    margin:auto;
+    max-width:150px;
+}
+input,button{
+    width:100%;
+    padding:15px;
+    font-size:18px;
+    margin-top:15px;
+    border-radius:8px;
+}
+button{
+    background:#4a90e2;
+    color:white;
+    border:none;
+    cursor:pointer;
+}
+button:hover{background:#357abd}
+.result-card{
+    margin-top:25px;
+    padding:20px;
+    background:#f9f9f9;
+    border-radius:10px;
+}
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+th,td{
+    border:1px solid #ccc;
+    padding:10px;
+}
+th{
+    background:#4a90e2;
+    color:white;
+}
+.result-summary{
+    margin-top:15px;
+    background:#4a90e2;
+    color:white;
+    padding:10px;
+    display:flex;
+    justify-content:space-between;
+    font-weight:bold;
+}
+footer{text-align:center;margin-top:30px}
+</style>
 </head>
+
 <body>
-    <div class="container">
-        <img src="https://github.com/Siddaram76/millennium/blob/main/logo.jpg?raw=true" alt="College Logo" class="logo"> <!-- Replace with actual logo URL -->
-        <h3>Kalyana Karnataka Education Society’s®</h3>
-        <h1>MILLENNIUM COMPOSITE PU COLLEGE, KALABURGI</h1>
-        <marquee><h2>M E T - 2026 </h2></marquee>
-        <hr>
-        <h1>Student Results</h1>
-        <select id="courseSelect">
-            <option value="">Select Course</option>
-            <option value="Course1">SCIENCE 1</option>
-            <option value="Course2">SCIENCE 2</option>
-            <option value="Course3">COMMERCE 1</option>
-            <option value="Course4">COMMERCE 2</option>
-        </select>
-        <input type="text" id="rollNumberInput" placeholder="Enter roll number">
-        <button onclick="searchResult()">Search</button>
-        <div id="results"></div>
-        <div class="counter">
-            <!-- FreeCounter code will go here -->
-            <script type="text/javascript" src="https://www.freecounterstat.com/fc.php?id=YOUR_COUNTER_ID"></script>
-        </div>
-    </div>
+<div class="container">
 
-    <script>
-        const sheetId = '1QT6ipufgUfd-nLr5tm5yro7FEhuiHg-jf_0alnJKI8c';
-        const apiKey = 'AIzaSyC-wylWnO4XxBbciUF1FwySQaZNM66j6sg';
-        let resultsData = [];
-        let columnHeaders = [];
+<img src="https://github.com/Siddaram76/millennium/blob/main/logo.jpg?raw=true" class="logo">
+<h3>Kalyana Karnataka Education Society’s®</h3>
+<h1>MILLENNIUM COMPOSITE PU COLLEGE, KALABURGI</h1>
+<marquee><h2>M E T – 2026</h2></marquee>
+<hr>
 
-        async function fetchResults(sheetName) {
-            const baseUrl = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${sheetName}?key=${apiKey}`;
-            try {
-                const response = await fetch(baseUrl);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const data = await response.json();
-                resultsData = data.values;
-                columnHeaders = resultsData[0].map(header => header.trim()); // Trim whitespace from headers
-            } catch (error) {
-                console.error('Error fetching data:', error);
-                document.getElementById('results').innerText = 'Error fetching data';
-            }
+<h1>Student Results</h1>
+
+<input type="text"
+       id="rollInput"
+       placeholder="Enter Roll Number"
+       oninput="this.value=this.value.replace(/[^0-9]/g,'')"
+       onkeypress="if(event.key==='Enter') searchResult()">
+
+<button onclick="searchResult()">Search</button>
+
+<div id="results"></div>
+
+</div>
+
+<script>
+const sheetId = '1M4dPi1mx84vOsOF-0-7_jaBfhJ98zosyCFTHaRuq9kA';
+const apiKey = 'AIzaSyC-wylWnO4XxBbciUF1FwySQaZNM66j6sg';
+const sheetName = 'MET2026';   // 🔴 your sheet tab
+
+let data = [];
+let headers = [];
+
+async function fetchData(){
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${sheetName}?key=${apiKey}`;
+    const res = await fetch(url);
+    const json = await res.json();
+    data = json.values;
+    headers = data[0].map(h => h.trim());
+}
+
+function searchResult(){
+    const roll = document.getElementById("rollInput").value.trim();
+    const out = document.getElementById("results");
+
+    if(!roll){
+        alert("Enter Roll Number");
+        return;
+    }
+
+    fetchData().then(()=>{
+        out.innerHTML = "";
+
+        const rollIndex = headers.indexOf("Roll Number");
+        const nameIndex = headers.indexOf("Name");
+        const totalIndex = headers.indexOf("Total");
+        const percentIndex = headers.indexOf("Percentage");
+
+        const student = data.slice(1).find(row => row[rollIndex] === roll);
+
+        if(!student){
+            out.innerHTML = "<b>No result found</b>";
+            return;
         }
 
-        function displayResults(results) {
-            const resultsDiv = document.getElementById('results');
-            resultsDiv.innerHTML = ''; // Clear previous results
-
-            if (!results || results.length === 0) {
-                resultsDiv.innerText = 'No data available';
-                return;
+        let subjectRows = "";
+        headers.forEach((head, i)=>{
+            if(
+                head !== "Name" &&
+                head !== "Roll Number" &&
+                head !== "Total" &&
+                head !== "Percentage"
+            ){
+                subjectRows += `<tr><td>${head}</td><td>${student[i] || "-"}</td></tr>`;
             }
+        });
 
-            results.forEach(row => {
-                const resultCard = document.createElement('div');
-                resultCard.className = 'result-card';
+        out.innerHTML = `
+        <div class="result-card">
+            <h3>Name: ${student[nameIndex]}</h3>
+            <p><b>Roll Number:</b> ${student[rollIndex]}</p>
 
-                const total = row[columnHeaders.indexOf('Total')]; // Fetch the total
-                const percentage = row[columnHeaders.indexOf('Percentage')]; // Fetch the percentage
+            <table>
+                <tr><th>Subject</th><th>Marks</th></tr>
+                ${subjectRows}
+            </table>
 
-                let tableRows = '';
-                for (let i = 2; i < columnHeaders.length; i++) {
-                    if (columnHeaders[i] !== 'Total' && columnHeaders[i] !== 'Percentage') {
-                        tableRows += `<tr><td>${columnHeaders[i]}</td><td>${row[i]}</td></tr>`;
-                    }
-                }
+            <div class="result-summary">
+                <div>Total: ${student[totalIndex] || "-"}</div>
+                <div>Percentage: ${student[percentIndex] || "-"}%</div>
+            </div>
+        </div>`;
+    });
+}
+</script>
 
-                resultCard.innerHTML = `
-                    <h2>Name: ${row[columnHeaders.indexOf('Name')]}</h2>
-                    <p><strong>Roll Number:</strong> ${row[columnHeaders.indexOf('Roll Number')]}</p>
-                    <table>
-                        <tr><th>Subject</th><th>Marks</th></tr>
-                        ${tableRows}
-                    </table>
-                    <div class="result-summary">
-                        <div>Total: ${total}</div>
-                        <div>Percentage: ${percentage}%</div>
-                    </div>
-                `;
+<footer>
+<hr>
+<strong>
+Developed & Maintained by Siddaram Diggikar<br>
+Dept. of Computer Science
+</strong>
+</footer>
 
-                resultsDiv.appendChild(resultCard);
-            });
-        }
-
-        function searchResult() {
-            const course = document.getElementById('courseSelect').value;
-            const rollNumber = document.getElementById('rollNumberInput').value;
-
-            if (course === '') {
-                alert('Please select a course');
-                return;
-            }
-
-            fetchResults(course).then(() => {
-                const filteredResults = resultsData.filter(row => row[columnHeaders.indexOf('Roll Number')] === rollNumber);
-                displayResults(filteredResults);
-            });
-        }
-    </script>
-    <B>CLICK HERE TO DOWNLOAD ANSWER KEY</B>
 </body>
 </html>
-
-
-
