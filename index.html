@@ -1,474 +1,606 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Student Results - MET 2026</title>
-
-<style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    min-height: 100vh;
-    padding: 20px;
-    position: relative;
-    overflow-x: hidden;
-}
-
-/* Background with custom image */
-body::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url('background.jpg'); /* Replace with your image path */
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    z-index: -2;
-}
-
-/* Light overlay for better text readability */
-body::after {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.3) 0%, rgba(118, 75, 162, 0.3) 100%);
-    z-index: -1;
-}
-
-.container {
-    max-width: 950px;
-    margin: auto;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    padding: 40px;
-    border-radius: 20px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-    animation: slideIn 0.6s ease-out;
-}
-
-@keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateY(-30px);
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Student Results - MET 2026</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f0f4ff;
+      color: #1a1a2e;
+      min-height: 100vh;
     }
-    to {
-        opacity: 1;
-        transform: translateY(0);
+
+    /* ─── HEADER ─── */
+    header {
+      background: linear-gradient(135deg, #0a1628 0%, #1a237e 50%, #283593 100%);
+      color: #fff;
+      text-align: center;
+      padding: 36px 20px 32px;
+      position: relative;
+      overflow: hidden;
     }
-}
-
-.header-section {
-    text-align: center;
-    margin-bottom: 30px;
-}
-
-.logo-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 30px;
-    margin-bottom: 20px;
-}
-
-.side-image {
-    width: 180px;
-    height: 180px;
-    object-fit: contain;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s ease;
-}
-
-.side-image:hover {
-    transform: scale(1.05);
-}
-
-.logo {
-    display: block;
-    max-width: 180px;
-    border-radius: 15px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s ease;
-}
-
-.logo:hover {
-    transform: scale(1.05);
-}
-
-h3 {
-    color: #667eea;
-    font-size: 16px;
-    font-weight: 600;
-    margin-bottom: 10px;
-}
-
-h1 {
-    color: #4a5568;
-    font-size: 28px;
-    font-weight: 700;
-    margin-bottom: 15px;
-}
-
-.marquee-container {
-    background: linear-gradient(90deg, #667eea, #764ba2);
-    color: white;
-    padding: 15px;
-    border-radius: 10px;
-    margin: 20px 0;
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-}
-
-.marquee-container h2 {
-    margin: 0;
-    font-size: 24px;
-    letter-spacing: 8px;
-    animation: glow 2s ease-in-out infinite alternate;
-}
-
-@keyframes glow {
-    from {
-        text-shadow: 0 0 5px #fff, 0 0 10px #fff;
+    header::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 70% 60% at 50% -10%, rgba(255,215,0,.15) 0%, transparent 70%);
+      pointer-events: none;
     }
-    to {
-        text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #667eea;
+    header img.logo {
+      width: 100px; height: 100px;
+      border-radius: 50%;
+      border: 4px solid #ffd700;
+      box-shadow: 0 0 24px rgba(255,215,0,.4);
+      object-fit: cover;
+      margin-bottom: 14px;
+      position: relative; z-index: 1;
     }
-}
-
-hr {
-    border: none;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, #667eea, transparent);
-    margin: 25px 0;
-}
-
-.search-section h1 {
-    color: #667eea;
-    text-align: center;
-    margin-bottom: 25px;
-    font-size: 26px;
-}
-
-.input-group {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 20px;
-}
-
-input {
-    flex: 1;
-    padding: 18px 20px;
-    font-size: 18px;
-    border: 2px solid #e2e8f0;
-    border-radius: 12px;
-    transition: all 0.3s ease;
-    background: white;
-}
-
-input:focus {
-    outline: none;
-    border-color: #667eea;
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-}
-
-button {
-    padding: 18px 40px;
-    font-size: 18px;
-    font-weight: 600;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-}
-
-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
-}
-
-button:active {
-    transform: translateY(0);
-}
-
-.result-card {
-    margin-top: 30px;
-    padding: 30px;
-    background: linear-gradient(135deg, #f6f8fb 0%, #ffffff 100%);
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    animation: fadeIn 0.5s ease-out;
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: scale(0.95);
+    header .society {
+      font-size: .85rem; font-weight: 600;
+      color: #ffd700; letter-spacing: 1.5px;
+      text-transform: uppercase; margin-bottom: 6px;
+      position: relative; z-index: 1;
     }
-    to {
-        opacity: 1;
-        transform: scale(1);
+    header h1 {
+      font-size: clamp(1.2rem, 3.5vw, 1.9rem);
+      font-weight: 800; line-height: 1.25; color: #fff;
+      text-shadow: 0 2px 12px rgba(0,0,0,.4);
+      position: relative; z-index: 1;
     }
-}
-
-.result-card h3 {
-    color: #667eea;
-    font-size: 22px;
-    margin-bottom: 20px;
-    text-align: center;
-    padding: 15px;
-    background: linear-gradient(135deg, #667eea15, #764ba215);
-    border-radius: 10px;
-}
-
-table {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
-    margin-top: 20px;
-    overflow: hidden;
-    border-radius: 12px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-}
-
-th, td {
-    padding: 18px;
-    text-align: left;
-    border-bottom: 1px solid #e2e8f0;
-}
-
-th {
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    color: white;
-    font-weight: 600;
-    text-transform: uppercase;
-    font-size: 14px;
-    letter-spacing: 1px;
-}
-
-td {
-    background: white;
-    font-size: 16px;
-    color: #4a5568;
-}
-
-tr:last-child td {
-    border-bottom: none;
-}
-
-tr:hover td {
-    background: #f7fafc;
-}
-
-.download-link {
-    text-align: center;
-    margin: 30px 0;
-}
-
-.download-link a {
-    display: inline-block;
-    padding: 15px 30px;
-    background: linear-gradient(135deg, #48bb78, #38a169);
-    color: white;
-    text-decoration: none;
-    border-radius: 10px;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(72, 187, 120, 0.3);
-}
-
-.download-link a:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(72, 187, 120, 0.5);
-}
-
-footer {
-    text-align: center;
-    margin-top: 40px;
-    padding: 25px;
-    background: linear-gradient(135deg, #f6f8fb, #ffffff);
-    border-radius: 15px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-}
-
-footer strong {
-    color: #4a5568;
-    line-height: 1.8;
-}
-
-.no-result {
-    text-align: center;
-    padding: 40px;
-    color: #e53e3e;
-    font-size: 20px;
-    font-weight: 600;
-}
-
-@media (max-width: 768px) {
-    .container {
-        padding: 20px;
+    header h2 {
+      margin-top: 8px;
+      font-size: clamp(.9rem, 2.5vw, 1.15rem);
+      font-weight: 600; color: #ffd700;
+      letter-spacing: 2px; text-transform: uppercase;
+      position: relative; z-index: 1;
     }
-    
-    .logo-container {
-        flex-direction: column;
-        gap: 15px;
+    .header-divider {
+      width: 80px; height: 3px;
+      background: #ffd700; border-radius: 2px;
+      margin: 14px auto 0; position: relative; z-index: 1;
     }
-    
-    .side-image {
-        width: 120px;
-        height: 120px;
+
+    /* ─── MAIN ─── */
+    main { max-width: 900px; margin: 0 auto; padding: 0 16px 60px; }
+
+    /* ─── RESULTS CARD ─── */
+    .results-section {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 24px rgba(26,35,126,.1);
+      padding: 32px 28px;
+      margin-top: 32px;
     }
-    
-    .input-group {
-        flex-direction: column;
+    .results-section h3 {
+      font-size: 1.5rem; font-weight: 800;
+      color: #1a237e; text-align: center; margin-bottom: 20px;
     }
-    
-    h1 {
-        font-size: 22px;
+    .search-wrap {
+      display: flex; align-items: center; gap: 10px;
+      background: #f0f4ff; border: 2px solid #c5cae9;
+      border-radius: 10px; padding: 10px 16px;
+      margin-bottom: 20px; transition: border-color .2s;
     }
-    
-    .marquee-container h2 {
-        font-size: 18px;
-        letter-spacing: 4px;
+    .search-wrap:focus-within { border-color: #3949ab; }
+    .search-wrap input {
+      flex: 1; border: none; background: transparent;
+      font-family: 'Poppins', sans-serif;
+      font-size: .95rem; color: #1a1a2e; outline: none;
     }
-}
-</style>
+    .search-wrap input::placeholder { color: #9fa8da; }
+    #results-table .no-result {
+      text-align: center; color: #9fa8da;
+      font-size: .9rem; padding: 20px 0;
+    }
+    .answer-key {
+      display: block; text-align: center; margin-top: 28px;
+    }
+    .answer-key a {
+      display: inline-block;
+      background: linear-gradient(135deg, #1a237e, #3949ab);
+      color: #fff; text-decoration: none;
+      font-weight: 700; font-size: .92rem;
+      padding: 12px 32px; border-radius: 10px;
+      letter-spacing: .5px;
+      box-shadow: 0 4px 16px rgba(26,35,126,.3);
+      transition: opacity .2s, transform .15s;
+    }
+    .answer-key a:hover { opacity: .88; transform: translateY(-2px); }
+
+    /* ─── SECTION HEADER ─── */
+    .section-header {
+      text-align: center; margin: 52px 0 24px;
+    }
+    .section-header .pill {
+      display: inline-block;
+      background: linear-gradient(135deg, #1a237e, #3949ab);
+      color: #fff; font-size: .75rem; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase;
+      border-radius: 20px; padding: 5px 16px; margin-bottom: 10px;
+    }
+    .section-header h2 {
+      font-size: clamp(1.3rem, 3vw, 1.8rem);
+      font-weight: 800; color: #1a237e;
+    }
+    .section-header p { color: #5c6bc0; font-size: .9rem; margin-top: 6px; }
+
+    /* ─── VIDEO GRID ─── */
+    .video-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    @media (max-width: 620px) { .video-grid { grid-template-columns: 1fr; } }
+
+    .video-card {
+      background: #fff; border-radius: 14px;
+      box-shadow: 0 4px 20px rgba(26,35,126,.1); overflow: hidden;
+    }
+    .video-label {
+      background: linear-gradient(135deg, #1a237e, #3949ab);
+      color: #fff; font-size: .78rem; font-weight: 700;
+      letter-spacing: 1px; text-transform: uppercase;
+      padding: 8px 16px; display: flex; align-items: center; gap: 6px;
+    }
+    .video-label .dot {
+      width: 8px; height: 8px; background: #ffd700; border-radius: 50%;
+    }
+    .video-embed {
+      position: relative; padding-top: 56.25%; background: #0a1628;
+    }
+    .video-embed iframe {
+      position: absolute; inset: 0; width: 100%; height: 100%; border: none;
+    }
+    .video-local-wrap {
+      position: relative; padding-top: 56.25%; background: #0d1b3e;
+    }
+    .video-local-wrap video {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      object-fit: cover;
+    }
+    .video-placeholder {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 10px;
+      color: rgba(255,255,255,.65); font-size: .82rem;
+      font-weight: 600; text-align: center; padding: 16px;
+      pointer-events: none;
+    }
+    .video-placeholder .play-icon {
+      font-size: 2.8rem;
+      background: rgba(255,255,255,.1);
+      border-radius: 50%; width: 68px; height: 68px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .video-caption {
+      padding: 12px 16px; font-size: .83rem;
+      color: #5c6bc0; font-weight: 600;
+      border-top: 1px solid #e8eaf6;
+    }
+
+    /* ─── GALLERY TABS ─── */
+    .gallery-tabs {
+      display: flex; justify-content: center;
+      gap: 10px; margin-bottom: 24px; flex-wrap: wrap;
+    }
+    .tab-btn {
+      background: #fff; border: 2px solid #c5cae9;
+      color: #5c6bc0; font-family: 'Poppins', sans-serif;
+      font-size: .82rem; font-weight: 700;
+      padding: 8px 22px; border-radius: 30px;
+      cursor: pointer; transition: all .2s;
+    }
+    .tab-btn.active, .tab-btn:hover {
+      background: linear-gradient(135deg, #1a237e, #3949ab);
+      border-color: #1a237e; color: #fff;
+      box-shadow: 0 4px 12px rgba(26,35,126,.3);
+    }
+
+    /* ─── TAB PANELS ─── */
+    .tab-panel { display: none; }
+    .tab-panel.active {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
+    }
+
+    /* ─── GALLERY ITEM ─── */
+    .gallery-item {
+      position: relative; border-radius: 12px;
+      overflow: hidden; box-shadow: 0 4px 16px rgba(26,35,126,.12);
+      cursor: pointer; aspect-ratio: 4/3; background: #1a237e;
+    }
+    .gallery-item img {
+      width: 100%; height: 100%; object-fit: cover;
+      display: block; transition: transform .35s;
+    }
+    .gallery-item:hover img { transform: scale(1.06); }
+    .gallery-item .overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(10,22,40,.8) 0%, transparent 55%);
+      opacity: 0; transition: opacity .3s;
+      display: flex; align-items: flex-end; padding: 12px;
+    }
+    .gallery-item:hover .overlay { opacity: 1; }
+    .overlay-text { color: #fff; font-size: .78rem; font-weight: 600; }
+
+    /* ─── PLACEHOLDER SLOT ─── */
+    .gallery-placeholder {
+      background: linear-gradient(135deg, #e8eaf6, #c5cae9);
+      border-radius: 12px; aspect-ratio: 4/3;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 8px;
+      border: 2px dashed #9fa8da;
+      color: #7986cb; font-size: .8rem; font-weight: 700;
+      text-align: center; padding: 12px;
+      cursor: pointer; transition: background .2s, border-color .2s;
+      position: relative;
+    }
+    .gallery-placeholder:hover {
+      background: linear-gradient(135deg, #dce0f5, #b8bef0);
+      border-color: #5c6bc0;
+    }
+    .gallery-placeholder .add-icon { font-size: 2.2rem; line-height: 1; }
+    .gallery-placeholder input[type="file"] {
+      position: absolute; inset: 0; opacity: 0;
+      cursor: pointer; width: 100%; height: 100%;
+    }
+
+    /* ─── INSTRUCTIONS ─── */
+    .instructions {
+      background: linear-gradient(135deg, #e8f5e9, #f1f8e9);
+      border: 1px solid #a5d6a7; border-radius: 12px;
+      padding: 16px 20px; margin-top: 24px;
+      font-size: .83rem; color: #2e7d32; line-height: 1.8;
+    }
+    .instructions strong { color: #1b5e20; }
+    .instructions code {
+      background: rgba(0,0,0,.06); border-radius: 4px;
+      padding: 1px 6px; font-family: monospace; font-size: .82rem;
+    }
+
+    /* ─── LIGHTBOX ─── */
+    .lightbox {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,.92); z-index: 999;
+      align-items: center; justify-content: center; padding: 20px;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox img {
+      max-width: 90vw; max-height: 85vh;
+      border-radius: 10px; object-fit: contain;
+      box-shadow: 0 0 60px rgba(0,0,0,.8);
+    }
+    .lb-close {
+      position: fixed; top: 20px; right: 24px;
+      color: #fff; font-size: 2rem; cursor: pointer;
+      background: rgba(255,255,255,.12); border: none;
+      border-radius: 50%; width: 44px; height: 44px;
+      display: flex; align-items: center; justify-content: center;
+      transition: background .2s;
+    }
+    .lb-close:hover { background: rgba(255,255,255,.28); }
+    .lb-caption {
+      position: fixed; bottom: 20px; left: 0; right: 0;
+      text-align: center; color: rgba(255,255,255,.8);
+      font-size: .85rem; font-weight: 600;
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: #0a1628; color: rgba(255,255,255,.7);
+      text-align: center; padding: 22px 16px;
+      font-size: .82rem; line-height: 1.9;
+    }
+    footer strong { color: #ffd700; }
+
+    @media (max-width: 500px) {
+      .results-section { padding: 20px 14px; }
+      main { padding: 0 10px 48px; }
+    }
+  </style>
 </head>
-
 <body>
-<div class="container">
-    <div class="header-section">
-        <div class="logo-container">
-            
-            <img src="https://github.com/Siddaram76/millennium/blob/main/logo.jpg?raw=true" class="logo" alt="College Logo">
-            
+
+<!-- ═══ HEADER ═══ -->
+<header>
+  <img class="logo"
+       src="https://github.com/Siddaram76/millennium/blob/main/logo.jpg?raw=true"
+       alt="College Logo"
+       onerror="this.style.background='#1a237e';this.alt='MPC'"/>
+  <div class="society">Kalyana Karnataka Education Society's®</div>
+  <h1>MILLENNIUM COMPOSITE PU COLLEGE, KALABURGI</h1>
+  <h2>MILLENNIUM TALENT HUNT EXAM – 2026</h2>
+  <div class="header-divider"></div>
+</header>
+
+<main>
+
+  <!-- ══ RESULTS SECTION ══ -->
+  <div class="results-section">
+    <h3>🎓 Student Results</h3>
+    <div class="search-wrap">
+      <span style="font-size:1.2rem;color:#7986cb;">🔍</span>
+      <input type="text" id="searchInput"
+             placeholder="Search by name or register number…"
+             oninput="searchResults()"/>
+    </div>
+    <div id="results-table">
+      <div class="no-result">Enter your name or register number to view results.</div>
+    </div>
+    <div class="answer-key">
+      <a href="#">📥 Click here to Download Answer Key</a>
+    </div>
+  </div>
+
+
+  <!-- ════════════════════════════════════════
+       🎬 VIDEO SECTION
+  ════════════════════════════════════════ -->
+  <div class="section-header">
+    <div class="pill">🎬 College Videos</div>
+    <h2>Watch Our College in Action</h2>
+    <p>Official videos showcasing Millennium Composite PU College, Kalaburgi</p>
+  </div>
+
+  <div class="video-grid">
+
+    <!-- YouTube Video Card -->
+    <div class="video-card">
+      <div class="video-label">
+        <span class="dot"></span>▶ YouTube Video
+      </div>
+      <div class="video-embed">
+        <!--
+          ★ REPLACE THE YouTube VIDEO ID ★
+          Current: dQw4w9WgXcQ  ← change this to your real video ID
+          Example: https://www.youtube.com/watch?v=ABC123XYZ
+                   → ID is "ABC123XYZ"
+                   → src becomes: https://www.youtube.com/embed/ABC123XYZ
+        -->
+        <iframe
+          src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+          title="Millennium College – YouTube"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+      </div>
+      <div class="video-caption">📍 Millennium Composite PU College – Official YouTube Video</div>
+    </div>
+
+    <!-- Local / GitHub-hosted Video Card -->
+    <div class="video-card">
+      <div class="video-label">
+        <span class="dot" style="background:#4fc3f7;"></span>🎥 Campus Video
+      </div>
+      <div class="video-local-wrap">
+        <!--
+          ★ REPLACE WITH YOUR VIDEO FILE ★
+          Upload your .mp4 to the GitHub repo and set the src to:
+          https://github.com/Siddaram76/millennium/blob/main/YOUR-VIDEO.mp4?raw=true
+        -->
+        <video id="localVid" controls
+               poster="https://github.com/Siddaram76/millennium/blob/main/logo.jpg?raw=true">
+          <source src="campus-video.mp4" type="video/mp4"/>
+        </video>
+        <div class="video-placeholder" id="vidPlaceholder">
+          <div class="play-icon">🎥</div>
+          <span>Upload your .mp4 to GitHub<br/>and update the src link above</span>
         </div>
-        <h3>Kalyana Karnataka Education Society's®</h3>
-        <h1>MILLENNIUM COMPOSITE PU COLLEGE, KALABURGI</h1>
+      </div>
+      <div class="video-caption">🏫 MET 2026 – Campus &amp; Event Highlights</div>
     </div>
-    
-    <div class="marquee-container">
-        <marquee><h2>MILLENNIUM TALENT HUNT EXAM – 2026</h2></marquee>
+
+  </div><!-- /.video-grid -->
+
+
+  <!-- ════════════════════════════════════════
+       📸 PHOTO GALLERY
+  ════════════════════════════════════════ -->
+  <div class="section-header" style="margin-top:52px;">
+    <div class="pill">📸 Photo Gallery</div>
+    <h2>College Gallery</h2>
+    <p>Campus Views, Student Achievements &amp; MET 2026 Events</p>
+  </div>
+
+  <div class="gallery-tabs">
+    <button class="tab-btn active" onclick="switchTab('campus',this)">🏫 Campus</button>
+    <button class="tab-btn" onclick="switchTab('achievements',this)">🏆 Achievements</button>
+    <button class="tab-btn" onclick="switchTab('events',this)">🎉 MET Events</button>
+  </div>
+
+  <!-- Campus Tab -->
+  <div id="tab-campus" class="tab-panel active">
+    <!-- Pre-loaded with the existing logo as a sample; replace src with real photo URLs -->
+    <div class="gallery-item" onclick="openLightbox(this)">
+      <img src="https://github.com/Siddaram76/millennium/blob/main/logo.jpg?raw=true"
+           alt="College" data-caption="Millennium Composite PU College"/>
+      <div class="overlay"><span class="overlay-text">College</span></div>
     </div>
-    
-    <hr>
-    
-    <div class="search-section">
-        <h1>🎓 Student Results</h1>
-        
-        <div class="input-group">
-            <input type="text"
-                   id="rollInput"
-                   placeholder="Enter Roll Number"
-                   oninput="this.value=this.value.replace(/[^0-9]/g,'')"
-                   onkeypress="if(event.key==='Enter') searchResult()">
-            <button onclick="searchResult()">🔍 Search</button>
-        </div>
-        
-        <div id="results"></div>
+    <!-- Placeholder slots (click to upload from device) -->
+    <div class="gallery-placeholder">
+      <input type="file" accept="image/*" onchange="loadLocal(this,'Campus View')"/>
+      <span class="add-icon">➕</span>
+      <span>Add Campus Photo<br/><small style="font-weight:400;opacity:.7">Click to upload</small></span>
     </div>
-    
-    <div class="download-link">
-        <a href="#"><b>📥 Click here to Download Answer Key</b></a>
+    <div class="gallery-placeholder">
+      <input type="file" accept="image/*" onchange="loadLocal(this,'Campus Photo')"/>
+      <span class="add-icon">➕</span>
+      <span>Add Campus Photo<br/><small style="font-weight:400;opacity:.7">Click to upload</small></span>
     </div>
-    
-    <footer>
-        <hr>
-        <strong>
-            Developed & Maintained by Siddaram Diggikar<br>
-            Dept. of Computer Science
-        </strong>
-    </footer>
+    <div class="gallery-placeholder">
+      <input type="file" accept="image/*" onchange="loadLocal(this,'Campus Photo')"/>
+      <span class="add-icon">➕</span>
+      <span>Add Campus Photo<br/><small style="font-weight:400;opacity:.7">Click to upload</small></span>
+    </div>
+    <div class="gallery-placeholder">
+      <input type="file" accept="image/*" onchange="loadLocal(this,'Campus Photo')"/>
+      <span class="add-icon">➕</span>
+      <span>Add Campus Photo<br/><small style="font-weight:400;opacity:.7">Click to upload</small></span>
+    </div>
+    <div class="gallery-placeholder">
+      <input type="file" accept="image/*" onchange="loadLocal(this,'Campus Photo')"/>
+      <span class="add-icon">➕</span>
+      <span>Add Campus Photo<br/><small style="font-weight:400;opacity:.7">Click to upload</small></span>
+    </div>
+  </div>
+
+  <!-- Achievements Tab -->
+  <div id="tab-achievements" class="tab-panel">
+    <div class="gallery-placeholder">
+      <input type="file" accept="image/*" onchange="loadLocal(this,'Achievement')"/>
+      <span class="add-icon">🏆</span>
+      <span>Add Achievement Photo<br/><small style="font-weight:400;opacity:.7">Click to upload</small></span>
+    </div>
+    <div class="gallery-placeholder">
+      <input type="file" accept="image/*" onchange="loadLocal(this,'Achievement')"/>
+      <span class="add-icon">🏆</span>
+      <span>Add Achievement Photo<br/><small style="font-weight:400;opacity:.7">Click to upload</small></span>
+    </div>
+    <div class="gallery-placeholder">
+      <input type="file" accept="image/*" onchange="loadLocal(this,'Achievement')"/>
+      <span class="add-icon">🏆</span>
+      <span>Add Achievement Photo<br/><small style="font-weight:400;opacity:.7">Click to upload</small></span>
+    </div>
+    <div class="gallery-placeholder">
+      <input type="file" accept="image/*" onchange="loadLocal(this,'Achievement')"/>
+      <span class="add-icon">🏆</span>
+      <span>Add Achievement Photo<br/><small style="font-weight:400;opacity:.7">Click to upload</small></span>
+    </div>
+    <div class="gallery-placeholder">
+      <input type="file" accept="image/*" onchange="loadLocal(this,'Achievement')"/>
+      <span class="add-icon">🏆</span>
+      <span>Add Achievement Photo<br/><small style="font-weight:400;opacity:.7">Click to upload</small></span>
+    </div>
+    <div class="gallery-placeholder">
+      <input type="file" accept="image/*" onchange="loadLocal(this,'Achievement')"/>
+      <span class="add-icon">🏆</span>
+      <span>Add Achievement Photo<br/><small style="font-weight:400;opacity:.7">Click to upload</small></span>
+    </div>
+  </div>
+
+  <!-- MET Events Tab -->
+  <div id="tab-events" class="tab-panel">
+    <div class="gallery-placeholder">
+      <input type="file" accept="image/*" onchange="loadLocal(this,'MET Event')"/>
+      <span class="add-icon">🎉</span>
+      <span>Add Event Photo<br/><small style="font-weight:400;opacity:.7">Click to upload</small></span>
+    </div>
+    <div class="gallery-placeholder">
+      <input type="file" accept="image/*" onchange="loadLocal(this,'MET Event')"/>
+      <span class="add-icon">🎉</span>
+      <span>Add Event Photo<br/><small style="font-weight:400;opacity:.7">Click to upload</small></span>
+    </div>
+    <div class="gallery-placeholder">
+      <input type="file" accept="image/*" onchange="loadLocal(this,'MET Event')"/>
+      <span class="add-icon">🎉</span>
+      <span>Add Event Photo<br/><small style="font-weight:400;opacity:.7">Click to upload</small></span>
+    </div>
+    <div class="gallery-placeholder">
+      <input type="file" accept="image/*" onchange="loadLocal(this,'MET Event')"/>
+      <span class="add-icon">🎉</span>
+      <span>Add Event Photo<br/><small style="font-weight:400;opacity:.7">Click to upload</small></span>
+    </div>
+    <div class="gallery-placeholder">
+      <input type="file" accept="image/*" onchange="loadLocal(this,'MET Event')"/>
+      <span class="add-icon">🎉</span>
+      <span>Add Event Photo<br/><small style="font-weight:400;opacity:.7">Click to upload</small></span>
+    </div>
+    <div class="gallery-placeholder">
+      <input type="file" accept="image/*" onchange="loadLocal(this,'MET Event')"/>
+      <span class="add-icon">🎉</span>
+      <span>Add Event Photo<br/><small style="font-weight:400;opacity:.7">Click to upload</small></span>
+    </div>
+  </div>
+
+
+
+</main>
+
+<!-- ═══ LIGHTBOX ═══ -->
+<div class="lightbox" id="lightbox" onclick="closeLb(event)">
+  <button class="lb-close" onclick="closeLb()">&times;</button>
+  <img id="lb-img" src="" alt=""/>
+  <div class="lb-caption" id="lb-cap"></div>
 </div>
 
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div>🎓 <strong>Millennium Composite PU College, Kalaburgi</strong></div>
+  <div>Kalyana Karnataka Education Society's®</div>
+  <div style="margin-top:6px;">
+    Developed &amp; Maintained by <strong>Siddaram Diggikar</strong> · Dept. of Computer Science
+  </div>
+</footer>
+
 <script>
-const sheetId = '1M4dPi1mx84vOsOF-0-7_jaBfhJ98zosyCFTHaRuq9kA';
-const apiKey  = 'AIzaSyC-wylWnO4XxBbciUF1FwySQaZNM66j6sg';
-
-let sheetName = "";
-let data = [];
-let rollCol = -1;
-
-async function getSheetName(){
-    const metaUrl = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}?key=${apiKey}`;
-    const res = await fetch(metaUrl);
-    const json = await res.json();
-    sheetName = json.sheets[0].properties.title;
-}
-
-async function fetchData(){
-    if(!sheetName){
-        await getSheetName();
+  /* ── SEARCH ── */
+  function searchResults() {
+    const q = document.getElementById('searchInput').value.trim();
+    const box = document.getElementById('results-table');
+    if (!q) {
+      box.innerHTML = '<div class="no-result">Enter your name or register number to view results.</div>';
+      return;
     }
-    const dataUrl = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${sheetName}?key=${apiKey}`;
-    const res = await fetch(dataUrl);
-    const json = await res.json();
-    data = json.values || [];
-    detectRollColumn();
-}
+    box.innerHTML = `<div class="no-result">🔍 Searching for "<strong>${q}</strong>"…<br/><small style="color:#bbb;">Connect your student data here</small></div>`;
+  }
 
-function detectRollColumn(){
-    const headers = data[0].map(h => h.toLowerCase().trim());
-    rollCol = headers.findIndex(h => h.includes("roll"));
+  /* ── GALLERY TABS ── */
+  function switchTab(id, btn) {
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + id).classList.add('active');
+    btn.classList.add('active');
+  }
 
-    if(rollCol === -1){
-        alert("⚠️ Roll No column not found");
-    }
-}
+  /* ── UPLOAD LOCAL IMAGE ── */
+  function loadLocal(input, caption) {
+    if (!input.files || !input.files[0]) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const ph = input.closest('.gallery-placeholder');
+      const parent = ph.parentElement;
+      const item = document.createElement('div');
+      item.className = 'gallery-item';
+      item.setAttribute('onclick', 'openLightbox(this)');
+      item.innerHTML = `
+        <img src="${e.target.result}" alt="${caption}" data-caption="${caption}"/>
+        <div class="overlay"><span class="overlay-text">${caption}</span></div>`;
+      parent.insertBefore(item, ph);
+      ph.remove();
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
 
-function searchResult(){
-    const roll = document.getElementById("rollInput").value.trim();
-    const out  = document.getElementById("results");
+  /* ── LIGHTBOX ── */
+  function openLightbox(el) {
+    const img = el.querySelector('img');
+    document.getElementById('lb-img').src = img.src;
+    document.getElementById('lb-cap').textContent = img.dataset.caption || img.alt;
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLb(e) {
+    if (e && e.target !== document.getElementById('lightbox') && !e.target.classList.contains('lb-close')) return;
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') { document.getElementById('lightbox').classList.remove('open'); document.body.style.overflow = ''; }
+  });
 
-    if(!roll){
-        alert("⚠️ Please enter a Roll Number");
-        return;
-    }
-
-    fetchData().then(()=>{
-        out.innerHTML = "";
-
-        const student = data.slice(1).find(row =>
-            row[rollCol] && row[rollCol].toString().trim() === roll
-        );
-
-        if(!student){
-            out.innerHTML = '<div class="no-result">❌ No result found for this roll number</div>';
-            return;
-        }
-
-        out.innerHTML = `
-        <div class="result-card">
-            <h3>📋 Roll Number: ${student[rollCol]}</h3>
-
-            <table>
-                <tr><th>Category</th><th>Count</th></tr>
-                <tr><td>✅ Correct Answers</td><td><strong>${student[rollCol+1] || 0}</strong></td></tr>
-                <tr><td>❌ Incorrect Answers</td><td><strong>${student[rollCol+2] || 0}</strong></td></tr>
-                <tr><td>⏭️ Not Attempted</td><td><strong>${student[rollCol+3] || 0}</strong></td></tr>
-            </table>
-        </div>`;
+  /* ── Hide placeholder when local video actually loads ── */
+  const vid = document.getElementById('localVid');
+  if (vid) {
+    vid.addEventListener('loadedmetadata', () => {
+      const ph = document.getElementById('vidPlaceholder');
+      if (ph) ph.style.display = 'none';
     });
-}
+  }
 </script>
-
 </body>
 </html>
-
-
-
-
